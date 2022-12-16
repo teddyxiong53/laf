@@ -31,9 +31,10 @@ AC_CHECK_LIB([pthread], [pthread_create],
 
 AC_CONFIG_FILES([
 	Makefile
-	tinyev/Makefile
+	libev/Makefile
 	lua/Makefile
 	luaclib/Makefile
+	src/Makefile
 	test/Makefile
 	])
 AC_OUTPUT
