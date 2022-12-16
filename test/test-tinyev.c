@@ -80,7 +80,7 @@ static void on_connection(ev_context *ctx, void *data)
             myloge("accept fail, reason:%s, now break accept loop", strerror(errno));
             break;
         }
-        make_nonblocking(fd);
+        make_nonblocking(fd);//一定要设置为非阻塞。
         mylogd("get connection fd:%d", fd);
         if (fd == 0) {//什么时候会这样？
             mylogd("return fd == 0");
@@ -103,13 +103,11 @@ static void on_data (ev_context *ctx, void *data)
     int n = 0;
     struct connection *conn = data;
 
-
     do {
-
         n = read(conn->fd, conn->buf + conn->bufsize, conn->capacity - conn->bufsize);
         mylogd("read data len:%d", n);
         if (n < 0) {
-            if (errno == EAGAIN || errno == EWOULDBLOCK) {
+            if (errno == EAGAIN || errno == EWOULDBLOCK) {//这2个错误就是一个。
                 continue;
             } else {
                 myloge("fatal err happens, reason:%s", strerror(errno));
@@ -162,6 +160,7 @@ static void on_response(ev_context *ctx, void *data)
         }
         conn->bufsize -= n;
     }
+    //这里为什么要触发一次这个事件？
     ev_fire_event(ctx, conn->fd, EV_READ, on_data, conn);
     return;
 err:

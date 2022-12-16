@@ -42,7 +42,7 @@ void ev_add_monitored(ev_context *ctx, int fd, int mask, ev_callback_t callback,
         //TODO
     }
     ctx->events_mointored[fd].fd = fd;
-    ctx->events_mointored[fd].mask |= mask;
+    ctx->events_mointored[fd].mask |= mask;//这里是|=,不会清空本来的mask。
     if (mask & EV_READ) {
         ctx->events_mointored[fd].rdata = data;
         ctx->events_mointored[fd].rcallback = callback;
@@ -180,6 +180,7 @@ int ev_fire_event(ev_context *ctx, int fd, int mask, ev_callback_t callback, voi
         myloge("ev_api_fire_event fail");
         return -1;
     }
+    //TODO：eventfd不应该被区分处理。
     if (mask & EV_EVENTFD) {
         ret = eventfd_write(fd, 1);
         if (ret < 0) {
@@ -215,6 +216,11 @@ int ev_is_running(ev_context *ctx)
 {
     return ctx->is_running;
 }
+/*
+    注册了signal的处理。靠一个eventfd来处理。
+    这个不太合适。就用一个signalfd处理不就好了吗？
+    eventfd也不应该被特殊处理。当成普通的fd处理不就好了？
+*/
 ev_context * ev_get_ev_context(void)
 {
     if (ev_default_ctx_inited == 0) {

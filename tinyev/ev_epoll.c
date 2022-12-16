@@ -112,7 +112,6 @@ int ev_api_fire_event(ev_context *ctx, int fd, int mask)
         op |= EPOLLOUT;
     }
     if (mask & EV_EVENTFD) {//这个是每次add，然后关闭掉。
-
         ret = epoll_add(api->fd, fd, op, NULL);
     } else {
         ret = epoll_mod(api->fd, fd, op, NULL);

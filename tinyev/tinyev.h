@@ -53,24 +53,23 @@ enum ev_type {
 
 
 typedef struct ev_ctx {
-    int events_nr;
-    int maxfd;//
-    int stop;
-    int is_running;
-    int maxevents;
-    uint64_t fired_events;
-    struct ev *events_mointored;
+    int events_nr;//管理的fd的个数。
+    int maxfd;//管理的fd里数字最大是多少。
+    int stop;//是否退出循环
+    int is_running;//是否正在运行
+    int maxevents;//当监听的fd数量超过events_nr时，会扩展events_nr的数量。
+    uint64_t fired_events;//统计发送的事件次数。
+    struct ev *events_mointored;//监听的fd每个对应一个结构体。
     void *api; //指向特定的backend的指针。
 } ev_context;
+
 typedef void (*ev_callback_t)(ev_context *ctx, void *arg);
 
 struct ev {
-    int fd;
-    int mask;
+    int fd;//哪个fd上发生了event。
+    int mask;//发生了什么event
     void *rdata;//read cb的参数
     void *wdata;//write cb的参数
-    // void (*rcallback)(ev_context *ctx, void *arg);// read cb
-    // void (*wcallback)(ev_context *ctx, void *arg);//write cb
     ev_callback_t rcallback;
     ev_callback_t wcallback;
 };
