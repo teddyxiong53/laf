@@ -1,0 +1,11 @@
+print("test Co.lua")
+local Co = require("internal.Co")
+-- new方式的不行，没有注册到内部map进行管理。
+-- local co = Co.new(function (arg)
+--     print('input arg:', arg)
+-- end)
+local co = Co.spawn(function (arg)
+    print('input arg:', arg)
+end)
+Co.wakeup(co, 'aa')
+print(Co.count())

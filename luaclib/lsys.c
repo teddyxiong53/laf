@@ -62,7 +62,8 @@ static int ldate(lua_State* L)
         timestamp = time(NULL);
     }
     size_t len = 128 + str_len;
-    char fmttime[len] = {0};
+    char fmttime[len] ;
+    memset(fmttime, 0, len);
     int ret = strftime(fmttime, len, fmt, localtime(&timestamp));
     if (ret < 0) {
         myloge("fmt time fail");
