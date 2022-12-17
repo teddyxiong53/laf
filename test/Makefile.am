@@ -15,4 +15,4 @@ LDADD = -L$(top_srcdir)/libev -L$(top_srcdir)/lua -L$(top_srcdir)/luaclib \
 	-llua \
 	-lsys \
 	-ltimer \
-	-lpthread -lm
+	-lpthread -lm -ldl -lreadline

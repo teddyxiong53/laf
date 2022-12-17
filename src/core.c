@@ -52,6 +52,7 @@ void init_lua_libs(lua_State *L, int mode)
     lua_pushliteral(L, LUALIBS_PATH);//这个从Makefile.am里生成
     lua_setfield(L, 1, "path");//这个会自动进行一次出栈操作。保证生效。
     //然后设置他的cpath属性。
+    mylogd("cpath:%s", LUACLIBS_PATH);
     lua_pushliteral(L, LUACLIBS_PATH);
     lua_setfield(L, 1, "cpath");
     //清空栈

@@ -16,7 +16,7 @@ AM_CFLAGS = \
 AM_CFLAGS += -g -O0 -rdynamic -funwind-tables
 
 AM_CFLAGS += -DLUALIBS_PATH="\"$(real_top)/lualib/?.lua;$(real_top)/lualib/?/init.lua;;\""
-AM_CFLAGS += -DLUACLIBS_PATH="\"$(real_top)/luaclib/.libs/?.so;;\""
+AM_CFLAGS += -DLUACLIBS_PATH="\"$(real_top)/luaclib/.libs/lib?.so;;\""
 AM_CFLAGS += -DLUA_ENTRY="\"$(entry_script)\""
 AM_CPPFLAGS = $(AM_CFLAGS)
 
@@ -25,4 +25,4 @@ LDADD = -L$(top_srcdir)/libev -L$(top_srcdir)/lua -L$(top_srcdir)/luaclib \
 	-llua \
 	-lsys \
 	-ltimer \
-	-lpthread -lm
+	-lpthread -lm -ldl -lreadline

@@ -28,7 +28,7 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
-
+#define CO_RESUME(L, from, nargs)  lua_resume(L, from, nargs)
 // 设置子进程自动关闭进程fd.
 #define non_exec(socket) {fcntl(socket, F_SETFD, fcntl(socket, F_GETFL, 0) | FD_CLOEXEC);}
 
