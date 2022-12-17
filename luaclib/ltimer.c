@@ -9,8 +9,8 @@ static void TIMEOUT_CB(core_loop *loop, core_timer *timer, int revents)
 {
     if (revents & EV_TIMER) {
         lua_State *co = (lua_State *)core_get_watcher_userdata(timer);
-        mylogd("co in callback:%p", co);
-        mylogd("timer:%p", timer);
+        // mylogd("co in callback:%p", co);
+        // mylogd("timer:%p", timer);
         int ret = lua_resume(co, NULL, lua_gettop(co)>0? lua_gettop(co)-1: 0);
         if ((ret != LUA_OK) && (ret != LUA_YIELD)) {
             myloge("lua resume fail:%s", lua_tostring(co, -1));

@@ -1,10 +1,9 @@
-local timer = require "timer"
-local sys = require "sys"
-
-local t1 = timer.new()
-local co = coroutine.create(function ()
-    print("time after timeout 2s:", sys.timer())
+local Timer = require "internal.Timer"
+Timer.timeout(2.0, function ()
+    print('2s timeout')
 end)
-print("current time:", sys.time())
-timer.start(t1, 2.0, co)
+Timer.at(3, function ()
+    print('3s repeat')
+end)
 
+print("end of code")
