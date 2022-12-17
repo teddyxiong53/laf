@@ -1,5 +1,8 @@
 #include "core.h"
 #include "mylog.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 //在Makefile.am里定义这个宏
 char script_entry[1024] = LUA_ENTRY;
@@ -71,5 +74,14 @@ static inline int cfadmin_standalone_run(const char* entry)
 
 int main(int argc, char const* argv[])
 {
+    if (argc > 1) {
+        //可以用./cfadmin test.lua这样的方式来测试。
+        //test.lua指定存放在script目录下。
+        //find get pwd in c
+        getcwd(script_entry, 1024);
+        strcat(script_entry, "/../script/");
+        strcat(script_entry, argv[1]);
+        mylogd("script path:%s", script_entry);
+    }
     return cfadmin_standalone_run(script_entry);
 }
